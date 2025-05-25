@@ -3,8 +3,8 @@ package steganosaurus.GUI;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
-
 import java.awt.*;
+import steganosaurus.Controllers.*;
 
 public class MainWindow {
 
@@ -37,19 +37,19 @@ public class MainWindow {
         // Add a menu bar to the main frame
         JMenuBar menuBar = new JMenuBar();
         addMenu(menuBar, "File",
-                createMenuItem("Switch Mode", null),
+                createMenuItem("Switch Mode", new BackendActions(BackendEnum.SWITCH_MODE)),
                 null,
-                createMenuItem("Exit", null));
+                createMenuItem("Exit", new GUIActions(GUIEnum.EXIT)));
         addMenu(menuBar, "Steganosaurus",
-                createMenuItem("Select File", null),
+                createMenuItem("Select File", new BackendActions(BackendEnum.SELECT_FILE)),
                 null,
-                createMenuItem("Add Carriers", null),
-                createMenuItem("Remove Carrier", null),
-                createMenuItem("Clear Carriers", null),
+                createMenuItem("Add Carriers", new BackendActions(BackendEnum.ADD_CARRIERS)),
+                createMenuItem("Remove Carrier", new BackendActions(BackendEnum.REMOVE_CARRIER)),
+                createMenuItem("Clear Carriers", new BackendActions(BackendEnum.CLEAR_CARRIERS)),
                 null,
-                createMenuItem("Run", null));
+                createMenuItem("Run", new BackendActions(BackendEnum.RUN)));
         addMenu(
-                menuBar, "Help", createMenuItem("About", null));
+                menuBar, "Help", createMenuItem("About", new GUIActions(GUIEnum.ABOUT)));
         mainFrame.setJMenuBar(menuBar);
 
         // Initialize the FilePane
@@ -80,11 +80,11 @@ public class MainWindow {
         bottomCentrePanel.setPreferredSize(new Dimension(400, 100));
 
         // Adding controls to the bottom centre panel
-        addButton(bottomCentrePanel, "<html>Select<br/>File</html>", null);
-        addButton(bottomCentrePanel, "<html>Add<br/>Carriers</html>", null);
-        addButton(bottomCentrePanel, "<html>Remove<br/>Carrier</html>", null);
-        addButton(bottomCentrePanel, "<html>Clear<br/>Carriers</html>", null);
-        addButton(bottomCentrePanel, "Run", null);
+        addButton(bottomCentrePanel, "<html>Select<br/>File</html>", new BackendActions(BackendEnum.SELECT_FILE));
+        addButton(bottomCentrePanel, "<html>Add<br/>Carriers</html>", new BackendActions(BackendEnum.ADD_CARRIERS));
+        addButton(bottomCentrePanel, "<html>Remove<br/>Carrier</html>", new BackendActions(BackendEnum.REMOVE_CARRIER));
+        addButton(bottomCentrePanel, "<html>Clear<br/>Carriers</html>", new BackendActions(BackendEnum.CLEAR_CARRIERS));
+        addButton(bottomCentrePanel, "Run", new BackendActions(BackendEnum.RUN));
 
         // Add the centre panels to the main frame
         centerPanel.add(topCentrePanel, BorderLayout.CENTER);
@@ -148,22 +148,19 @@ public class MainWindow {
     }
 
     // Create a menu item with the given name and action
-    // ! Placeholder for action listeners is String for now
-    private JMenuItem createMenuItem(String name, String action) {
+    private <E extends Enum<E>> JMenuItem createMenuItem(String name, Actions<E> actionListener) {
         JMenuItem menuItem = new JMenuItem(name);
-        // if (action != null) {
-        // }
+        menuItem.addActionListener(actionListener);
         return menuItem;
     }
 
     // Add a button to the given panel with the specified name and action
-    private void addButton(JPanel panel, String name, String action) {
+    private <E extends Enum<E>> void addButton(JPanel panel, String name, Actions<E> actionListener) {
         JButton button = new JButton(name);
         button.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         button.setFocusPainted(false);
         button.setFont(buttonFont);
-        // if (action != null) {
-        // }
+        button.addActionListener(actionListener);
         panel.add(button);
     }
 
