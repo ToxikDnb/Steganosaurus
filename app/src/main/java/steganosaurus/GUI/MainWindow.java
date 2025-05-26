@@ -8,6 +8,7 @@ import steganosaurus.Controllers.*;
 
 public class MainWindow {
 
+    private JFrame mainFrame;
     private FilePane filePane;
     private static final Dimension minSize = new Dimension(400, 200);
     // Fonts used in the application
@@ -19,8 +20,14 @@ public class MainWindow {
     private JLabel totalBytesLabel;
     private JLabel neededBytesLabel;
     private JLabel statusInfoLabel;
+    public static MainWindow instance;
 
     public MainWindow() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            throw new IllegalStateException("MainWindow instance already exists.");
+        }
         // Set up the main frame
         JFrame mainFrame = new JFrame("Steganosaurus - Encrypt");
         mainFrame.setSize(new Dimension(800, 400));
@@ -133,6 +140,15 @@ public class MainWindow {
         totalBytesLabel.setText(String.valueOf(totalBytes));
         neededBytesLabel.setText(String.valueOf(neededBytes));
         statusInfoLabel.setText(status);
+    }
+
+    /**
+     * Returns the main frame of the application.
+     * 
+     * @return the main JFrame instance
+     */
+    public JFrame getMainFrame() {
+        return mainFrame;
     }
 
     // #region Helper functions
