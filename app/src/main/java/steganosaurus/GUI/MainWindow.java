@@ -121,7 +121,9 @@ public class MainWindow {
         mainFrame.add(statusBar, BorderLayout.SOUTH);
 
         // Set the main frame to be visible
+        mainFrame.setAlwaysOnTop(true);
         mainFrame.setVisible(true);
+        mainFrame.setAlwaysOnTop(false);
     }
 
     /**
