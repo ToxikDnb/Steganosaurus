@@ -75,7 +75,7 @@ public class MainWindow {
         filePane = new FilePane();
         JScrollPane scrollPane = new JScrollPane(filePane);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(200, 300));
         scrollPane.setBorder(
                 BorderFactory.createTitledBorder("Input Files"));
