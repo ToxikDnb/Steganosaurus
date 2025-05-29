@@ -6,6 +6,7 @@ import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import steganosaurus.Controllers.*;
 import steganosaurus.Backend.MainBackend;
+import java.io.File;
 
 /**
  * MainWindow class represents the main GUI window of the Steganosaurus
@@ -228,6 +229,51 @@ public class MainWindow {
      */
     public void clearCarriers() {
         filePane.removeAllButtons();
+    }
+
+    /**
+     * Displays an error dialog with the specified title and message.
+     * 
+     * @param title   the title of the error dialog
+     * @param message the error message to display
+     */
+    public void showErrorDialog(String title, String message) {
+        JOptionPane.showMessageDialog(mainFrame, message, title, JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Displays an information dialog with the specified title and message.
+     * 
+     * @param title   the title of the information dialog
+     * @param message the information message to display
+     */
+    public void showInformationDialog(String title, String message) {
+        JOptionPane.showMessageDialog(mainFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Displays a success dialog with the specified file and mode (e.g.,
+     * "encrypted",
+     * "decrypted").
+     * 
+     * @param file the file that was successfully processed
+     * @param mode the mode of operation (e.g., "encrypted", "decrypted")
+     */
+    public void showSuccessDialog(File file, String mode) {
+        String message = "File successfully " + mode + "!\n" +
+                "Path: " + file.getAbsolutePath();
+        showInformationDialog("Success!", message);
+        // Open explorer to the file location
+        String dirLocation = file.getAbsolutePath();
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().open(new File(dirLocation));
+            } catch (Exception e) {
+                showErrorDialog("Error", "Could not open file location: " + e.getMessage());
+            }
+        } else {
+            showErrorDialog("Error", "Desktop operations are not supported on this platform.");
+        }
     }
 
     /**
