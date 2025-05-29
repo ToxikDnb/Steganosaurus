@@ -25,10 +25,10 @@ The data is stored in a specific format. Each steganographic file starts with a 
 -   **ID hash**: A unique SHA-256 hash of the contents of the hidden data, used to verify integrity and to match hidden data with its corresponding files (32 bytes).
 -   **File name**: The name of the file containing the hidden data. (32 bytes)
 -   **File type**: The type of the file (e.g., png, pdf) (8 bytes).
--   **Byte length**: The length of the hidden data in bytes. (4 bytes)
+-   **Byte length**: The length of the hidden data in bytes. (8 bytes)
 -   **File id**: The sequence number of the file in the steganographic sequence. This starts at 0, and is automatically calculated by the program to ensure that data is stored in the correct order. (4 bytes)
 
-Since the header has a fixed size of 80 bytes, images must contain at least 81 pixels to be of any use (IE minimum 9x9 pixels). The program will automatically check the size of the image and will not allow images smaller than this size to be used for hiding data.
+Since the header has a fixed size of 84 bytes, images must contain at least 85 pixels to be of any use (IE minimum 17x5 pixels). The program will automatically check the size of the image and will not allow images smaller than this size to be used for hiding data.
 
 ## Installation / Usage
 
