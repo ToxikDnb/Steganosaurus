@@ -44,7 +44,7 @@ Or alternatively, you can run the program by double-clicking the JAR file if you
 
 ### Version 1.0
 
--   [ ] UI interface, containing upload points for files/text to be hidden, as well as managing images to hide them in.
+-   [ ] GUI, containing upload points for files/text to be hidden, as well as managing images to hide them in.
 -   [ ] Ability to hide data & files within images
 -   [ ] Ability to extract hidden data from files.
 -   [ ] Ability to save extracted data to a file.
