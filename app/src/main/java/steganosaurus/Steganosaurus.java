@@ -4,9 +4,17 @@
  */
 package steganosaurus;
 
+import javax.swing.UIManager;
+import steganosaurus.GUI.MainWindow;
+
 public class Steganosaurus {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Steganosaurus!");
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        new MainWindow();
     }
 }
