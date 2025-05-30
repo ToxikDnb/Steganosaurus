@@ -5,10 +5,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import steganosaurus.Controllers.*;
+import steganosaurus.Backend.MainBackend;
 
 public class MainWindow {
 
     private JFrame mainFrame;
+    private MainBackend backend;
     private FilePane filePane;
     private static final Dimension minSize = new Dimension(400, 200);
     // Fonts used in the application
@@ -102,11 +104,11 @@ public class MainWindow {
         JPanel fileInfoPanel = new JPanel();
         fileInfoPanel.setLayout(new GridLayout(5, 2, 10, 10));
         fileInfoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        addLabelPair(fileInfoPanel, "Uploaded file", fileLabel = new JLabel("No file selected"));
-        addLabelPair(fileInfoPanel, "File size (bytes)", sizeLabel = new JLabel("0"));
-        addLabelPair(fileInfoPanel, "Total bytes offered by images", totalBytesLabel = new JLabel("0"));
-        addLabelPair(fileInfoPanel, "Remaining bytes", neededBytesLabel = new JLabel("0"));
-        addLabelPair(fileInfoPanel, "Status", statusInfoLabel = new JLabel("Idle"));
+        addLabelPair(fileInfoPanel, "Uploaded file", fileLabel = new JLabel());
+        addLabelPair(fileInfoPanel, "File size (bytes)", sizeLabel = new JLabel());
+        addLabelPair(fileInfoPanel, "Total bytes offered by images", totalBytesLabel = new JLabel());
+        addLabelPair(fileInfoPanel, "Remaining bytes", neededBytesLabel = new JLabel());
+        addLabelPair(fileInfoPanel, "Status", statusInfoLabel = new JLabel());
         topCentrePanel.add(fileInfoPanel, BorderLayout.CENTER);
 
         // Add a status bar at the bottom of the main frame
@@ -120,6 +122,9 @@ public class MainWindow {
         statusBar.add(versionLabel, BorderLayout.EAST);
         mainFrame.add(statusBar, BorderLayout.SOUTH);
 
+        // Initialize the backend
+        backend = new MainBackend(this);
+
         // Set the main frame to be visible
         mainFrame.setAlwaysOnTop(true);
         mainFrame.setVisible(true);
@@ -127,20 +132,47 @@ public class MainWindow {
     }
 
     /**
-     * Updates the file information displayed in the main window.
+     * Sets the name of the file being processed.
      * 
-     * @param fileName    the name of the file being processed
-     * @param fileSize    the size of the file in bytes
-     * @param totalBytes  the total bytes available in the carrier images
-     * @param neededBytes the bytes needed for encryption
-     * @param status      the current status of the operation (e.g., "Idle",
-     *                    "Processing", "Completed")
+     * @param fileName the name of the file
      */
-    public void updateFileInfo(String fileName, long fileSize, long totalBytes, long neededBytes, String status) {
+    public void setFileName(String fileName) {
         fileLabel.setText(fileName);
+    }
+
+    /**
+     * Sets the size of the file in bytes.
+     * 
+     * @param fileSize the size of the file
+     */
+    public void setFileSize(long fileSize) {
         sizeLabel.setText(String.valueOf(fileSize));
+    }
+
+    /**
+     * Sets the total number of bytes available in the carrier images.
+     * 
+     * @param totalBytes the total available bytes
+     */
+    public void setTotalBytes(long totalBytes) {
         totalBytesLabel.setText(String.valueOf(totalBytes));
+    }
+
+    /**
+     * Sets the number of bytes needed for encryption.
+     * 
+     * @param neededBytes the required bytes
+     */
+    public void setNeededBytes(long neededBytes) {
         neededBytesLabel.setText(String.valueOf(neededBytes));
+    }
+
+    /**
+     * Sets the current status of the operation.
+     * 
+     * @param status the current status (e.g., "Idle", "Processing", "Completed")
+     */
+    public void setStatus(String status) {
         statusInfoLabel.setText(status);
     }
 
@@ -151,6 +183,15 @@ public class MainWindow {
      */
     public JFrame getMainFrame() {
         return mainFrame;
+    }
+
+    /**
+     * Returns the backend instance used in the main window.
+     * 
+     * @return the backend instance
+     */
+    public MainBackend getBackend() {
+        return backend;
     }
 
     // #region Helper functions
