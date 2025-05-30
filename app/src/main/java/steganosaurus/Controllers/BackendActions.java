@@ -5,7 +5,6 @@ import javax.swing.JFileChooser;
 import steganosaurus.Backend.SteganException;
 import steganosaurus.GUI.MainWindow;
 import java.io.File;
-import java.lang.reflect.AccessFlag.Location;
 
 public class BackendActions extends Actions<BackendEnum> {
 
