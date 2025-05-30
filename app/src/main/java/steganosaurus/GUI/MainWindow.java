@@ -8,8 +8,10 @@ import steganosaurus.Controllers.*;
 import steganosaurus.Backend.MainBackend;
 
 /**
- * MainWindow class represents the main GUI window of the Steganosaurus application.
- * It initializes the main frame, menu bar, file pane, and various controls for user interaction.
+ * MainWindow class represents the main GUI window of the Steganosaurus
+ * application.
+ * It initializes the main frame, menu bar, file pane, and various controls for
+ * user interaction.
  */
 public class MainWindow {
 
@@ -154,7 +156,7 @@ public class MainWindow {
      * @param fileSize the size of the file
      */
     public void setFileSize(long fileSize) {
-        sizeLabel.setText(String.valueOf(fileSize));
+        sizeLabel.setText(formatFileSize(fileSize));
     }
 
     /**
@@ -163,7 +165,7 @@ public class MainWindow {
      * @param totalBytes the total available bytes
      */
     public void setTotalBytes(long totalBytes) {
-        totalBytesLabel.setText(String.valueOf(totalBytes));
+        totalBytesLabel.setText(formatFileSize(totalBytes));
     }
 
     /**
@@ -172,7 +174,7 @@ public class MainWindow {
      * @param neededBytes the required bytes
      */
     public void setNeededBytes(long neededBytes) {
-        neededBytesLabel.setText(String.valueOf(neededBytes));
+        neededBytesLabel.setText(formatFileSize(neededBytes));
     }
 
     /**
@@ -200,6 +202,51 @@ public class MainWindow {
      */
     public MainBackend getBackend() {
         return backend;
+    }
+
+    /**
+     * Adds a file to the file pane with the specified name and size.
+     * 
+     * @param fileName the name of the file
+     * @param fileSize the size of the file in bytes
+     */
+    public void addCarrier(String fileName, long fileSize) {
+        filePane.addFile(fileName, fileSize);
+    }
+
+    /**
+     * Adds a file to the file pane with the specified name.
+     * 
+     * @param fileName the name of the file
+     */
+    public void removeCarrier(int index) {
+        filePane.removeButtonAtIndex(index);
+    }
+
+    /**
+     * Clears all files from the file pane.
+     */
+    public void clearCarriers() {
+        filePane.removeAllButtons();
+    }
+
+    /**
+     * Formats the file size into a human-readable string.
+     * Sizes are formatted as bytes, kilobytes, megabytes, or gigabytes.
+     *
+     * @param size the size in bytes
+     * @return a formatted string representing the file size
+     */
+    public static String formatFileSize(long size) {
+        if (size < 1024) {
+            return size + " B";
+        } else if (size < 1024 * 1024) {
+            return String.format("%.2f KB", size / 1024.0);
+        } else if (size < 1024 * 1024 * 1024) {
+            return String.format("%.2f MB", size / (1024.0 * 1024.0));
+        } else {
+            return String.format("%.2f GB", size / (1024.0 * 1024.0 * 1024.0));
+        }
     }
 
     // #region Helper functions
