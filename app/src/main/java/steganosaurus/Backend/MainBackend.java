@@ -214,8 +214,11 @@ public class MainBackend {
                 ImageIO.write(image, "png", encryptedFile);
             }
             return carriers.get(0).getParentFile();
+        } else {
+            // Decryption process
+            // Go through each carrier file and unpack the data into a header
         }
-        return null; // Placeholder for decryption logic
+        return null;
     }
 
     // #region Helper functions
