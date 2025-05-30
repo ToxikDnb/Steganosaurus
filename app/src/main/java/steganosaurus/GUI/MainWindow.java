@@ -7,6 +7,10 @@ import java.awt.*;
 import steganosaurus.Controllers.*;
 import steganosaurus.Backend.MainBackend;
 
+/**
+ * MainWindow class represents the main GUI window of the Steganosaurus application.
+ * It initializes the main frame, menu bar, file pane, and various controls for user interaction.
+ */
 public class MainWindow {
 
     private JFrame mainFrame;
@@ -24,6 +28,10 @@ public class MainWindow {
     private JLabel statusInfoLabel;
     public static MainWindow instance;
 
+    /**
+     * Singleton constructor for the MainWindow class.
+     * Ensures that only one instance of MainWindow exists.
+     */
     public MainWindow() {
         if (instance == null) {
             instance = this;
