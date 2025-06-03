@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-
 import java.awt.image.BufferedImage;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +28,7 @@ public class MainBackend {
 
     // Constants
     public static final int HEADER_SIZE = 84;
+
     // Private variables
     private File selectedFile;
     private ArrayList<File> carriers = new ArrayList<File>();
