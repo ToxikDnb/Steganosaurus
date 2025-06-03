@@ -4,9 +4,13 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+
 import steganosaurus.Controllers.*;
 import steganosaurus.Backend.MainBackend;
+import steganosaurus.Settings.Keybind;
 import java.io.File;
+import java.util.HashMap;
 
 /**
  * MainWindow class represents the main GUI window of the Steganosaurus
@@ -16,20 +20,27 @@ import java.io.File;
  */
 public class MainWindow {
 
+    /**
+     * Singleton instance of the MainWindow.
+     * Ensures that only one instance of MainWindow exists throughout the
+     * application.
+     */
+    public static MainWindow instance;
+    // File font
+    public static final Font fileFont = new Font("Arial", Font.PLAIN, 12);
+    // Button font
+    public static final Font buttonFont = new Font("Arial", Font.BOLD, 14);
+
     private JFrame mainFrame;
     private MainBackend backend;
     private FilePane filePane;
     private static final Dimension minSize = new Dimension(400, 200);
-    // Fonts used in the application
-    public static final Font fileFont = new Font("Arial", Font.PLAIN, 12);
-    public static final Font buttonFont = new Font("Arial", Font.BOLD, 14);
-
     private JLabel fileLabel;
     private JLabel sizeLabel;
     private JLabel totalBytesLabel;
     private JLabel neededBytesLabel;
     private JLabel statusInfoLabel;
-    public static MainWindow instance;
+    private HashMap<JMenuItem, Keybind> keybinds;
 
     /**
      * Singleton constructor for the MainWindow class.
@@ -41,6 +52,7 @@ public class MainWindow {
         } else {
             throw new IllegalStateException("MainWindow instance already exists.");
         }
+        keybinds = new HashMap<JMenuItem, Keybind>();
         // Set up the main frame
         JFrame mainFrame = new JFrame("Steganosaurus - Encrypt");
         mainFrame.setSize(new Dimension(800, 400));
@@ -57,17 +69,24 @@ public class MainWindow {
         // Add a menu bar to the main frame
         JMenuBar menuBar = new JMenuBar();
         addMenu(menuBar, "File",
-                createMenuItem("Switch Mode", new BackendActions(BackendEnum.SWITCH_MODE)),
+                createMenuItem("Switch Mode", new BackendActions(BackendEnum.SWITCH_MODE), KeyEvent.VK_E,
+                        KeyEvent.CTRL_DOWN_MASK),
                 null,
-                createMenuItem("Exit", new GUIActions(GUIEnum.EXIT)));
+                createMenuItem("Exit", new GUIActions(GUIEnum.EXIT), KeyEvent.VK_Q,
+                        KeyEvent.CTRL_DOWN_MASK));
         addMenu(menuBar, "Steganosaurus",
-                createMenuItem("Select File", new BackendActions(BackendEnum.SELECT_FILE)),
+                createMenuItem("Select File", new BackendActions(BackendEnum.SELECT_FILE), KeyEvent.VK_O,
+                        KeyEvent.CTRL_DOWN_MASK),
                 null,
-                createMenuItem("Add Carriers", new BackendActions(BackendEnum.ADD_CARRIERS)),
-                createMenuItem("Remove Carrier", new BackendActions(BackendEnum.REMOVE_CARRIER)),
-                createMenuItem("Clear Carriers", new BackendActions(BackendEnum.CLEAR_CARRIERS)),
+                createMenuItem("Add Carriers", new BackendActions(BackendEnum.ADD_CARRIERS), KeyEvent.VK_A,
+                        KeyEvent.CTRL_DOWN_MASK),
+                createMenuItem("Remove Carrier", new BackendActions(BackendEnum.REMOVE_CARRIER), KeyEvent.VK_D,
+                        KeyEvent.CTRL_DOWN_MASK),
+                createMenuItem("Clear Carriers", new BackendActions(BackendEnum.CLEAR_CARRIERS), KeyEvent.VK_C,
+                        KeyEvent.CTRL_DOWN_MASK),
                 null,
-                createMenuItem("Run", new BackendActions(BackendEnum.RUN)));
+                createMenuItem("Run", new BackendActions(BackendEnum.RUN), KeyEvent.VK_R,
+                        KeyEvent.CTRL_DOWN_MASK));
         addMenu(
                 menuBar, "Help", createMenuItem("About", new GUIActions(GUIEnum.ABOUT)));
         mainFrame.setJMenuBar(menuBar);
@@ -309,8 +328,18 @@ public class MainWindow {
 
     // Create a menu item with the given name and action
     private <E extends Enum<E>> JMenuItem createMenuItem(String name, Actions<E> actionListener) {
+        return createMenuItem(name, actionListener, -1, 0);
+    }
+
+    // Create a menu item with the given name and action
+    private <E extends Enum<E>> JMenuItem createMenuItem(String name, Actions<E> actionListener, int key,
+            int... modifiers) {
         JMenuItem menuItem = new JMenuItem(name);
         menuItem.addActionListener(actionListener);
+        if (key != -1) {
+            Keybind keybind = new Keybind(menuItem, key, modifiers);
+            keybinds.put(menuItem, keybind);
+        }
         return menuItem;
     }
 
